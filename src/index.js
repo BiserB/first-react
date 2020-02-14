@@ -1,8 +1,92 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-const element = <h1>Hello world!</h1>
+// const element = <h1>Hello world!</h1>
 
-console.log("element..", element);
+// console.log("element..", element);
 
-ReactDOM.render(element, document.getElementById("root"));
+// ReactDOM.render(element, document.getElementById("root"));
+
+class Square extends React.Component {
+    render() {
+      return (
+        <button className="square column" onClick={() => { this.props.onClick()}}>
+          {this.props.value}
+        </button>
+      );
+    }
+  }
+  
+  class Board extends React.Component {
+    
+    constructor(props) {
+        super(props);
+        this.state = {
+          squares: Array(9).fill(null),
+        };
+      }
+
+    renderSquare(i) {
+      return (
+      <Square 
+        value={this.state.squares[i]}
+        onClick={() => this.handleClick(i)}
+        />
+      );
+    }
+
+    handleClick(i) {
+        const squares = this.state.squares.slice();
+        squares[i] = 'X';
+        this.setState({squares: squares});
+      }
+  
+    render() {
+      const status = 'Next player: X';
+  
+      return (
+        <div className="board">
+          <div className="status">{status}</div>
+          <div className="row">
+            {this.renderSquare(0)}
+            {this.renderSquare(1)}
+            {this.renderSquare(2)}
+          </div>
+          <div className="row">
+            {this.renderSquare(3)}
+            {this.renderSquare(4)}
+            {this.renderSquare(5)}
+          </div>
+          <div className="row">
+            {this.renderSquare(6)}
+            {this.renderSquare(7)}
+            {this.renderSquare(8)}
+          </div>
+        </div>
+      );
+    }
+  }
+  
+  class Game extends React.Component {
+    render() {
+      return (
+        <div className="game">
+          <div className="game-board">
+            <Board />
+          </div>
+          <div className="game-info">
+            <div>{/* status */}</div>
+            <ol>{/* TODO */}</ol>
+          </div>
+        </div>
+      );
+    }
+  }
+  
+  // ========================================
+  
+  ReactDOM.render(
+    <Game />,
+    document.getElementById('root')
+  );
+  
